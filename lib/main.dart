@@ -45,20 +45,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: StreamBuilder<AuthState>(
-        stream: Supabase.instance.client.auth.onAuthStateChange,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          final session = snapshot.data?.session;
-          if (session != null) {
-            return const ProductListScreen();
-          } else {
-            return const LoginScreen();
-          }
-        },
-      ),
+      home: const SplashScreen(),
     );
   }
 }
