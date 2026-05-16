@@ -24,10 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
     try {
       if (_isSignUp) {
-        await Supabase.instance.client.auth.signUp(
+        final response = await Supabase.instance.client.auth.signUp(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+        
+        // Create Profile record
+        if (response.user != null) {
+          await Supabase.instance.client.from('profiles').insert({
+            'id': response.user!.id,
+            'full_name': _emailController.text.split('@')[0], // Default name
+          });
+        }
+
         // Log Signup
         await EcommerceService().logActivity("Sign Up Attempt", _emailController.text.trim());
 
