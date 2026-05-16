@@ -209,6 +209,27 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildSection(String title, List<Widget> children) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Column(children: children),
+        ),
+      ],
+    );
+  }
+
   Widget _buildListTile(BuildContext context, IconData icon, String title, Widget? target) {
     return ListTile(
       leading: Icon(icon, color: Colors.black54, size: 22),
