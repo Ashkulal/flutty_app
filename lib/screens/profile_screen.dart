@@ -12,6 +12,10 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   Future<void> _signOut(BuildContext context) async {
+    final user = Supabase.instance.client.auth.currentUser;
+    // Log Activity
+    await EcommerceService().logActivity("User Sign Out", user?.email ?? "Unknown");
+    
     await Supabase.instance.client.auth.signOut();
     if (context.mounted) {
       Navigator.pushAndRemoveUntil(
@@ -30,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Supabase.instance.client.auth.currentUser;
     final email = user?.email ?? 'User';
-    final name = email.split('@')[0];
+    final name = email.split('@')[0].toUpperCase();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FB),
