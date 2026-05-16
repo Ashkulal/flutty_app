@@ -1,16 +1,14 @@
 # ShopNow Premium 🛍️✨
 
-ShopNow is a professional-grade, high-performance E-commerce application built with Flutter and Supabase. It offers a seamless, premium shopping experience with a focus on modern design, speed, and zero-fee transactions.
+**Experience the future of retail.** ShopNow is the ultimate marketplace designed for the modern shopper, offering a luxury retail experience with high-performance Flutter technology and zero-fee UPI transactions.
 
-## 🚀 Key Features
+## 💎 Why ShopNow?
 
-- **Premium Marketplace UI:** A sleek, Amazon-inspired interface designed for maximum user engagement.
-- **Real-Time Data Sync:** Powered by Supabase for instantaneous product updates and inventory management.
-- **Zero-Fee UPI Payments:** Integrated Deep Linking for Google Pay, PhonePe, and other UPI apps (NPCI Protocol).
-- **Persistent Shopping Cart:** State-of-the-art local persistence ensures your cart is never lost.
-- **Universal Wishlist:** Save your favorite items across sessions with long-term memory.
-- **Gift Cards & Rewards:** Manage balances and redeem discount coupons (e.g., `SAVE20`) instantly.
-- **Order History:** Professional tracking of past and active orders.
+- **Curated Excellence:** Browse a handpicked selection of premium products.
+- **Zero-Fee Transactions:** Pay instantly via GPay, PhonePe, or Paytm with NO fees.
+- **Smart Intelligence:** Find anything in milliseconds with Smart Search.
+- **Customer First:** Integrated WhatsApp Live Chat for instant support.
+- **Rewards & Loyalty:** Exclusive gift cards and discount systems.
 
 ## 🛠️ Technical Stack
 

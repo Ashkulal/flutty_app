@@ -6,6 +6,7 @@ import 'orders_screen.dart';
 import 'wishlist_screen.dart';
 import 'payment_screen.dart';
 import 'gift_card_screen.dart';
+import 'about_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -181,6 +182,7 @@ class ProfileScreen extends StatelessWidget {
           onTap: () => _launchWhatsApp(context),
         ),
         _buildListTile(context, Icons.help_outline_rounded, "Contact Us", null),
+        _buildListTile(context, Icons.info_outline_rounded, "About ShopNow", const AboutScreen()),
         _buildListTile(context, Icons.description_outlined, "Legal & Privacy", null),
       ],
     );
