@@ -7,6 +7,7 @@ import 'wishlist_screen.dart';
 import 'payment_screen.dart';
 import 'gift_card_screen.dart';
 import 'about_screen.dart';
+import '../services/ecommerce_service.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -116,7 +117,7 @@ class ProfileScreen extends StatelessWidget {
         if (target != null) {
           _navigateTo(context, target);
         } else {
-          _showComingSoon(context, title);
+          _showInfoMessage(context, title);
         }
       },
       child: Container(
