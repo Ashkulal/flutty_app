@@ -147,9 +147,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _launchWhatsApp(BuildContext context) async {
-    const phone = "918660871XXX"; // User's requested number or placeholder
-    final url = "whatsapp://send?phone=$phone&text=Hello ShopNow Support! I need help with my order.";
+  Future<void> _launchWhatsApp(BuildContext context, {bool isGroup = false}) async {
+    final url = isGroup 
+      ? "https://chat.whatsapp.com/KUoWCKc4rYwKKcim9D2HrO"
+      : "whatsapp://send?phone=918660874196&text=Hello Akash! I need help with ShopNow.";
     final uri = Uri.parse(url);
 
     try {
@@ -158,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
       } else {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("WhatsApp not installed.")),
+            const SnackBar(content: Text("Could not open WhatsApp.")),
           );
         }
       }
@@ -177,9 +178,15 @@ class ProfileScreen extends StatelessWidget {
       [
         ListTile(
           leading: const Icon(Icons.chat_bubble_outline_rounded, color: Colors.green),
-          title: const Text("Chat with Us (WhatsApp)", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+          title: const Text("Chat with Founder (WhatsApp)", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
           trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 14),
-          onTap: () => _launchWhatsApp(context),
+          onTap: () => _launchWhatsApp(context, isGroup: false),
+        ),
+        ListTile(
+          leading: const Icon(Icons.groups_outlined, color: Colors.blue),
+          title: const Text("Join Community Group", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+          trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 14),
+          onTap: () => _launchWhatsApp(context, isGroup: true),
         ),
         _buildListTile(context, Icons.help_outline_rounded, "Contact Us", null),
         _buildListTile(context, Icons.info_outline_rounded, "About ShopNow", const AboutScreen()),

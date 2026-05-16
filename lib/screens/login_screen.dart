@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/ecommerce_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +16,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _authenticate() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill in all fields.")));
+      return;
+    }
+
     setState(() => _isLoading = true);
     try {
       if (_isSignUp) {
@@ -22,9 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+        // Log Signup
+        await EcommerceService().logActivity("Sign Up Attempt", _emailController.text.trim());
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Check your email for confirmation!")),
+            const SnackBar(content: Text("Account created! Please check your email to confirm.")),
           );
         }
       } else {
@@ -32,11 +41,17 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+        // Log Login
+        await EcommerceService().logActivity("User Login", _emailController.text.trim());
       }
     } catch (e) {
       if (mounted) {
+        String msg = e.toString();
+        if (msg.contains("Email not confirmed")) {
+          msg = "Please confirm your email address before logging in.";
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red),
+          SnackBar(content: Text(msg), backgroundColor: Colors.red),
         );
       }
     } finally {
