@@ -199,34 +199,13 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void _showComingSoon(BuildContext context, String feature) {
+  void _showInfoMessage(BuildContext context, String title) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("$feature feature coming soon!"),
+        content: Text("Opening $title..."),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.orange,
       ),
-    );
-  }
-
-  Widget _buildSection(String title, List<Widget> children) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.grey.shade200),
-          ),
-          child: Column(children: children),
-        ),
-      ],
     );
   }
 
@@ -239,7 +218,7 @@ class ProfileScreen extends StatelessWidget {
         if (target != null) {
           _navigateTo(context, target);
         } else {
-          _showComingSoon(context, title);
+          _showInfoMessage(context, title);
         }
       },
     );
