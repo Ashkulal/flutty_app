@@ -39,7 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Account created! Please check your email to confirm.")),
+            const SnackBar(
+              content: Text("Account created! Welcome to ShopNow."),
+              backgroundColor: Colors.green,
+            ),
           );
         }
       } else {
