@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 120),
-              // Premium Logo Circle
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(

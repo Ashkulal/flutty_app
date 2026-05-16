@@ -41,7 +41,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      debugPrint('ProductListScreen Error: $e');
       if (!mounted) return;
       setState(() => _isLoading = false);
     }

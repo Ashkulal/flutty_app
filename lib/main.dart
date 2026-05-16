@@ -10,7 +10,6 @@ import 'screens/product_list_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Supabase
   await Supabase.initialize(
     url: 'https://thjkilnkdejydsurvrcj.supabase.co',
     anonKey: 'sb_publishable_Ai3RWYGRSmU1fT23dUp82w_12u-Ew3M',

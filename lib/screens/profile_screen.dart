@@ -14,7 +14,6 @@ class ProfileScreen extends StatelessWidget {
 
   Future<void> _signOut(BuildContext context) async {
     final user = Supabase.instance.client.auth.currentUser;
-    // Log Activity
     await EcommerceService().logActivity("User Sign Out", user?.email ?? "Unknown");
     
     await Supabase.instance.client.auth.signOut();
