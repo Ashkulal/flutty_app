@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/wishlist_provider.dart';
 import 'screens/splash_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/product_list_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +45,20 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const SplashScreen(),
+      home: StreamBuilder<AuthState>(
+        stream: Supabase.instance.client.auth.onAuthStateChange,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+          final session = snapshot.data?.session;
+          if (session != null) {
+            return const ProductListScreen();
+          } else {
+            return const LoginScreen();
+          }
+        },
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/ecommerce_service.dart';
 import '../models/cart_item.dart';
 import '../models/product.dart';
 
@@ -76,6 +77,9 @@ class CartProvider with ChangeNotifier {
   }
 
   void addItem(Product product, {int quantity = 1}) {
+    // Log Activity for Admin
+    EcommerceService().logActivity("Add to Cart", "${product.name} (x$quantity)");
+
     if (_items.containsKey(product.id)) {
       _items.update(
         product.id,

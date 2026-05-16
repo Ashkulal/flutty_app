@@ -289,7 +289,28 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                 child: Stack(
                   children: [
-                    Positioned.fill(child: Image.network(product.imageUrl, fit: BoxFit.cover)),
+                    Positioned.fill(
+                      child: Image.network(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
+                              color: Colors.orange.withOpacity(0.3),
+                              strokeWidth: 2,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: Colors.grey[100],
+                          child: const Icon(Icons.image_not_supported_outlined, color: Colors.grey),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       top: 10,
                       right: 10,

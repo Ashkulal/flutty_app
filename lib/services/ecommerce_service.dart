@@ -111,4 +111,19 @@ class EcommerceService {
       ),
     ];
   }
+
+  // --- Admin Activity Logger ---
+  Future<void> logActivity(String type, String details) async {
+    try {
+      final user = _supabase.auth.currentUser;
+      await _supabase.from('user_activity').insert({
+        'user_id': user?.id,
+        'email': user?.email,
+        'activity_type': type,
+        'details': details,
+      });
+    } catch (e) {
+      debugPrint("Activity Log Error: $e");
+    }
+  }
 }
