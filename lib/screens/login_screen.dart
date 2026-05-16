@@ -29,15 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _passwordController.text.trim(),
         );
         
-        // Create Profile record
         if (response.user != null) {
           await Supabase.instance.client.from('profiles').insert({
             'id': response.user!.id,
-            'full_name': _emailController.text.split('@')[0], // Default name
+            'full_name': _emailController.text.split('@')[0],
           });
         }
-
-        // Log Signup
         await EcommerceService().logActivity("Sign Up Attempt", _emailController.text.trim());
 
         if (mounted) {
@@ -50,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-        // Log Login
         await EcommerceService().logActivity("User Login", _emailController.text.trim());
       }
     } catch (e) {
@@ -60,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           msg = "Please confirm your email address before logging in.";
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(msg), backgroundColor: Colors.red),
+          SnackBar(content: Text(msg), backgroundColor: Colors.redAccent),
         );
       }
     } finally {
@@ -71,73 +67,104 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          children: [
-            const SizedBox(height: 80),
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(color: Colors.orange.withOpacity(0.1), shape: BoxShape.circle),
-              child: const Icon(Icons.shopping_bag_rounded, size: 60, color: Colors.orange),
-            ),
-            const SizedBox(height: 30),
-            Text(
-              _isSignUp ? "Create Account" : "Welcome Back",
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              _isSignUp ? "Sign up to start shopping" : "Login to your account",
-              style: const TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 40),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                hintText: "Email Address",
-                filled: true,
-                fillColor: Colors.grey[100],
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
-                prefixIcon: const Icon(Icons.email_outlined),
-              ),
-            ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: "Password",
-                filled: true,
-                fillColor: Colors.grey[100],
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
-                prefixIcon: const Icon(Icons.lock_outline),
-              ),
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _authenticate,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 120),
+              // Premium Logo Circle
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.05),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white.withOpacity(0.1)),
                 ),
-                child: _isLoading 
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : Text(_isSignUp ? "SIGN UP" : "LOGIN", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                child: const Icon(Icons.shopping_bag_rounded, size: 50, color: Colors.orangeAccent),
               ),
-            ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () => setState(() => _isSignUp = !_isSignUp),
-              child: Text(
-                _isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up",
-                style: const TextStyle(color: Colors.orange),
+              const SizedBox(height: 40),
+              const Text(
+                "SHOPNOW",
+                style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900, letterSpacing: 2),
               ),
-            ),
-          ],
+              Text(
+                _isSignUp ? "Join the elite marketplace" : "Sign in to your premium account",
+                style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 16),
+              ),
+              const SizedBox(height: 50),
+              _buildTextField(_emailController, "Email Address", Icons.alternate_email_rounded),
+              const SizedBox(height: 20),
+              _buildTextField(_passwordController, "Password", Icons.lock_person_rounded, isPassword: true),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _authenticate,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orangeAccent,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    elevation: 0,
+                  ),
+                  child: _isLoading 
+                    ? const SizedBox(width: 25, height: 25, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                    : Text(_isSignUp ? "CREATE ACCOUNT" : "SIGN IN", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: TextButton(
+                  onPressed: () => setState(() => _isSignUp = !_isSignUp),
+                  child: RichText(
+                    text: TextSpan(
+                      text: _isSignUp ? "Already a member? " : "New to ShopNow? ",
+                      style: TextStyle(color: Colors.white.withOpacity(0.6)),
+                      children: [
+                        TextSpan(
+                          text: _isSignUp ? "Login" : "Sign Up",
+                          style: const TextStyle(color: Colors.orangeAccent, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String hint, IconData icon, {bool isPassword = false}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
+      ),
+      child: TextField(
+        controller: controller,
+        obscureText: isPassword,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+          prefixIcon: Icon(icon, color: Colors.white.withOpacity(0.4), size: 20),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(vertical: 18),
         ),
       ),
     );

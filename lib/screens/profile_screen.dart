@@ -153,7 +153,7 @@ class ProfileScreen extends StatelessWidget {
 
   Future<void> _launchWhatsApp(BuildContext context, {bool isGroup = false}) async {
     final url = isGroup 
-      ? "https://chat.whatsapp.com/KUoWCKc4rYwKKcim9D2HrO"
+      ? "https://chat.whatsapp.com/ED49CaaIU7CDdFYK5rpd1J"
       : "whatsapp://send?phone=918660874196&text=Hello Akash! I need help with ShopNow.";
     final uri = Uri.parse(url);
 
