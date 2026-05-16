@@ -90,6 +90,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       child: Column(
         children: [
           _buildPremiumHeader(context),
+          _buildSearchBar(),
           Expanded(
             child: RefreshIndicator(
               onRefresh: _fetchProducts,
@@ -97,8 +98,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
               child: CustomScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  SliverToBoxAdapter(child: _buildPromoCarousel()),
-                  SliverToBoxAdapter(child: _buildCategoryList()),
+                  if (_searchQuery.isEmpty) SliverToBoxAdapter(child: _buildPromoCarousel()),
+                  if (_searchQuery.isEmpty) SliverToBoxAdapter(child: _buildCategoryList()),
                   _buildProductGridSection(),
                   const SliverToBoxAdapter(child: SizedBox(height: 20)),
                 ],
@@ -106,6 +107,41 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))
+          ],
+        ),
+        child: TextField(
+          onChanged: (value) => setState(() => _searchQuery = value),
+          decoration: InputDecoration(
+            hintText: "Search products...",
+            hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+            border: InputBorder.none,
+            icon: const Icon(Icons.search, color: Colors.orange, size: 20),
+            suffixIcon: _searchQuery.isNotEmpty 
+              ? IconButton(
+                  icon: const Icon(Icons.close, size: 18, color: Colors.grey), 
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    setState(() => _searchQuery = "");
+                  }
+                )
+              : null,
+          ),
+        ),
       ),
     );
   }

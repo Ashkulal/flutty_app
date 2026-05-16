@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'login_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'orders_screen.dart';
 import 'wishlist_screen.dart';
 import 'payment_screen.dart';
@@ -145,10 +146,40 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _launchWhatsApp(BuildContext context) async {
+    const phone = "918660871XXX"; // User's requested number or placeholder
+    final url = "whatsapp://send?phone=$phone&text=Hello ShopNow Support! I need help with my order.";
+    final uri = Uri.parse(url);
+
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("WhatsApp not installed.")),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: $e")),
+        );
+      }
+    }
+  }
+
   Widget _buildSettingsSection(BuildContext context) {
     return _buildSection(
       "Customer Service",
       [
+        ListTile(
+          leading: const Icon(Icons.chat_bubble_outline_rounded, color: Colors.green),
+          title: const Text("Chat with Us (WhatsApp)", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+          trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 14),
+          onTap: () => _launchWhatsApp(context),
+        ),
         _buildListTile(context, Icons.help_outline_rounded, "Contact Us", null),
         _buildListTile(context, Icons.description_outlined, "Legal & Privacy", null),
       ],
